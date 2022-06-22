@@ -1,5 +1,6 @@
 package com.example.android_localization
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,12 +14,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.android_localization.ui.theme.AndroidlocalizationTheme
+import com.lokalise.sdk.LokaliseContextWrapper
+
 
 class MainActivity : ComponentActivity() {
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LokaliseContextWrapper.wrap(newBase))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -60,7 +67,8 @@ fun CustomMediumTextStyle(text:String){
     Column(modifier = Modifier.fillMaxWidth()) {
     Text(text = text, fontSize = 20.sp, fontFamily = FontFamily.SansSerif)
 
-    Spacer(modifier = Modifier.fillMaxWidth()
+    Spacer(modifier = Modifier
+        .fillMaxWidth()
         .padding(top = 8.dp, bottom = 8.dp)
         .height(1.dp)
         .background(Color.Black))
