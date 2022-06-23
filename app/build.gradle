@@ -59,4 +59,12 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    //Cokoin
+    implementation("dev.burnoo:cokoin:0.3.3")
+    implementation("dev.burnoo:cokoin-android-viewmodel:0.3.3") // for Androidx ViewModel
+    implementation("dev.burnoo:cokoin-android-navigation:0.3.3") // for Compose Navigation
+
+    //Navigation animation
+    implementation "com.google.accompanist:accompanist-navigation-animation:0.24.1-alpha"
 }
