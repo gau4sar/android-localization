@@ -1,6 +1,8 @@
 package com.example.android_localization.screens
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -20,9 +22,12 @@ import com.example.android_localization.utils.customAnimatedComposable
 import com.example.android_localization.viewmodel.HomeViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dev.burnoo.cokoin.Koin
 import dev.burnoo.cokoin.navigation.KoinNav
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
 

@@ -1,5 +1,6 @@
 package com.example.android_localization.viewmodel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_localization.data.Localization
@@ -30,12 +31,17 @@ class HomeViewModel(
 
     //Switch languages
     fun switchToEnglish() = switchLanguage(AppLanguage.ENGLISH)
-    fun switchToChinese() = switchLanguage(AppLanguage.CHINESE)
-    fun switchToBurmese() = switchLanguage(AppLanguage.BURMESE)
+    fun switchToSpanish() = switchLanguage(AppLanguage.SPANISH)
+    fun switchToArabic() = switchLanguage(AppLanguage.ARABIC)
 
+    val isSwitchLanguageInProgress = mutableStateOf(false)
     private fun switchLanguage(language: AppLanguage) {
+        isSwitchLanguageInProgress.value = true
         viewModelScope.launch {
-            localizationRepository.switchLanguage(language)
+            localizationRepository.switchLanguage(language,
+                onFinishLoading = {
+                    isSwitchLanguageInProgress.value = false
+                })
             _currentLanguage.emit(language)
         }
     }

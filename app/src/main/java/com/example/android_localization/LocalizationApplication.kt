@@ -6,6 +6,7 @@ import com.example.android_localization.di.repositoryModule
 import com.example.android_localization.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext
+import timber.log.Timber
 
 class LocalizationApplication : Application() {
 
@@ -21,6 +22,11 @@ class LocalizationApplication : Application() {
                     repositoryModule
                 )
             )
+        }
+
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
         }
     }
 }

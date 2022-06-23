@@ -4,17 +4,19 @@ import com.example.android_localization.data.Localization
 import com.example.android_localization.data.LocalizationBundle
 import com.example.android_localization.utils.AppLanguage
 import com.example.android_localization.utils.PrefUtils
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 class LocalizationRepository(private val preferenceStorage: PrefUtils) :
     LocalizationRepositoryInterface {
 
-    //TODO the local can be the default language and the remote can be updated in api call
     private val local = LocalizationBundle(
         en = Localization().apply {
             watching_my_cats = "Wathcing my cats make me happy"
@@ -69,9 +71,51 @@ class LocalizationRepository(private val preferenceStorage: PrefUtils) :
     }
 
     //Update the language
-    fun switchLanguage(language: AppLanguage) {
-        _localizationFlow.value = getLocalization(language)
-        preferenceStorage.saveAppLanguage(language)
+    fun switchLanguage(language: AppLanguage, onFinishLoading: () -> Unit) {
+
+        val db = Firebase.firestore
+
+        db.collection(language.value)
+            .get()
+            .addOnSuccessListener { result ->
+                Timber.d("firebase collection result -> $result")
+
+                preferenceStorage.saveAppLanguage(language)
+
+                val localization = Localization()
+                for (document in result) {
+
+                    document.get("hello_world").toString().let {
+                        localization.hello_world = it
+                    }
+                    document.get("i_like_dogs").toString().let {
+                        localization.i_like_dogs = it
+                    }
+                    document.get("watching_my_cats").toString().let {
+                        localization.watching_my_cats = it
+                    }
+                    document.get("in_ancient_times_cats").toString().let {
+                        localization.in_ancient_times_cats = it
+                    }
+                    document.get("owners_of_dogs_noticed").toString().let {
+                        localization.owners_of_dogs_noticed = it
+                    }
+                    preferenceStorage.saveAppLanguage(language)
+
+                    Timber.d("firebase collection-> ${document.id} => ${document.get("hello_world")}")
+                }
+
+                _localizationFlow.value = localization
+
+                onFinishLoading()
+            }
+            .addOnFailureListener { exception ->
+                Timber.e("firebase collection-> Error getting documents. $exception")
+                onFinishLoading()
+            }
+
+        /*_localizationFlow.value = getLocalization(language)
+        */
     }
 
     private fun getLocalization(language: AppLanguage): Localization =
@@ -82,8 +126,8 @@ class LocalizationRepository(private val preferenceStorage: PrefUtils) :
     //Get the selected language
     fun LocalizationBundle.getLocalization(language: AppLanguage): Localization = when (language) {
         AppLanguage.ENGLISH -> en
-        AppLanguage.CHINESE -> cn
-        AppLanguage.BURMESE -> mm
+        AppLanguage.SPANISH -> cn
+        AppLanguage.ARABIC -> mm
     }
 
 
