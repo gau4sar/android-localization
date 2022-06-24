@@ -1,8 +1,7 @@
-package com.example.android_localization.screens
+package com.example.android_localization.screens.switch_language
 
-import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -13,25 +12,22 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.android_localization.di.appModule
-import com.example.android_localization.di.repositoryModule
 import com.example.android_localization.di.viewModelModule
-import com.example.android_localization.screens.home.HomeScreen
-import com.example.android_localization.screens.screen_items.MainScreenItems
+import com.example.android_localization.screens.home.MainActivity
+import com.example.android_localization.screens.home.screen_items.MainScreenItems
 import com.example.android_localization.ui.theme.AndroidlocalizationTheme
 import com.example.android_localization.utils.customAnimatedComposable
-import com.example.android_localization.viewmodel.HomeViewModel
+import com.example.android_localization.viewmodel.SharedViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dev.burnoo.cokoin.Koin
 import dev.burnoo.cokoin.navigation.KoinNav
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
-class MainActivity : ComponentActivity() {
 
-    private val homeViewModel: HomeViewModel by viewModel()
+class SwitchLanguageActivity : ComponentActivity() {
+
+    private val sharedViewModel: SharedViewModel by viewModel()
 
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,8 +47,7 @@ class MainActivity : ComponentActivity() {
                     Koin(appDeclaration = {
                         modules(
                             appModule,
-                            viewModelModule,
-                            repositoryModule,
+                            viewModelModule
                         )
                     }) {
 
@@ -65,7 +60,7 @@ class MainActivity : ComponentActivity() {
 
                                 customAnimatedComposable(route = MainScreenItems.HomeScreenItems.route,
                                     content = {
-                                        HomeScreen(homeViewModel)
+                                        SwitchLanguageScreen(sharedViewModel)
                                     })
                             }
                         }
@@ -75,8 +70,12 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        homeViewModel.getSavedLanguage()
+    override fun onBackPressed() {
+
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+
+        super.onBackPressed()
     }
 }

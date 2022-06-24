@@ -1,4 +1,4 @@
-package com.example.android_localization.screens.screen_items
+package com.example.android_localization.screens.home.screen_items
 
 
 sealed class MainScreenItems(val route:String) {

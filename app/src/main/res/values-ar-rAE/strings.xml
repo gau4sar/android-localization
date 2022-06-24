@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">android-localization</string>
+    <string name="hello_world">مرحبا بالعالم</string>
+    <string name="in_ancient_times_cats">في العصور القديمة ، كانت القطط تُعبد كآلهة. لم ينسوا هذا.</string>
+    <string name="anyone_around_cat">كما يعلم أي شخص كان حول قطة لأي فترة من الوقت جيدًا ، فإن القطط لديها صبر هائل مع قيود الجنس البشري.</string>
+    <string name="owners_of_dogs_noticed">سيلاحظ أصحاب الكلاب أنه إذا وفرت لهم الطعام والماء والمأوى والعاطفة ، فإنهم سيعتقدون أنك الله. في حين أن أصحاب القطط مجبرون على إدراك أنه إذا زودتهم بالطعام والماء والعاطفة ، فإنهم يستنتجون أنهم هم الله.</string>
+    <string name="dog_loves_you">بغض النظر عن شعورك ، سيحبك كلب صغير.</string>
+</resources>
