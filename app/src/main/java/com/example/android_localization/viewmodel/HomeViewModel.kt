@@ -46,4 +46,15 @@ class HomeViewModel(
         }
     }
 
+    fun getSavedLanguage() {
+        isSwitchLanguageInProgress.value = true
+        viewModelScope.launch {
+            localizationRepository.switchLanguage(prefUtils.getAppLanguage(),
+                onFinishLoading = {
+                    isSwitchLanguageInProgress.value = false
+                })
+            _currentLanguage.emit(prefUtils.getAppLanguage())
+        }
+    }
+
 }
